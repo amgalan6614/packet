@@ -4,10 +4,11 @@
 #include <QMainWindow>
 #include <pcap.h>
 #include <QVector>
-namespace Ui {
-
+namespace Ui
+{
 class PCAP;
 }
+
 struct PcapHeader
 {
     qint32 t1;
@@ -33,14 +34,18 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_pushButton_2_clicked();
+
 private:
     Ui::PCAP *ui;
 };
+
+
 class Deny
 {
 public:
     PcapHeader pHeader;
-    char data[2000];
+    char data[65535];
 };
 
 
@@ -61,7 +66,7 @@ class PacketStream
 {
 public:
     PcapFHeader fHeader;
-    QVector <Deny> packets;
+    QVector <QVector<Deny>> packets;
 };
 
 #endif // PCAP_H
