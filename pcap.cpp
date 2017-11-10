@@ -5,6 +5,8 @@
 #include <QDebug>
 #include <iostream>
 #include<QVector>
+#include <sstream>
+
 
 using namespace std;
 PCAP::PCAP(QWidget *parent) :
@@ -71,6 +73,7 @@ void PCAP::on_pushButton_clicked()
 //            ui->textEdit->append("Packet number "+QString::number(i));
 //            ui->textEdit->append("t1:"+QString::number(ph.pHeader.t1)+" t2:"+QString::number(ph.pHeader.t2)+" Захваченная длина пакета:" +QString::number(ph.pHeader.caplen)+" Общая длина пакета:"+ QString::number(ph.pHeader.len));
         }
+        ps.packets.push_back(ph);
         ui->textEdit->append("Количество пакетов: "+QString::number(i));
         avr=avr / i;
         ui->lineEdit_5->setText(QString::number(avr));
@@ -100,7 +103,11 @@ void PCAP::on_pushButton_2_clicked()
     ui->textEdit->append("");
     for (int j=0;j<ph.pHeader.caplen;j++)
     {
-        ui->textEdit->insertPlainText(" "+QString::number(ph.data[j]));
+        QString dec;
+        dec=QString::number(ph.data[j]);
+        int d=dec.toInt();
+        QString s=QString::number(d,16).toUpper();
+        ui->textEdit->insertPlainText(" "+s + " ");
         qDebug()<<hex<<(ph.data[j]&0xff);
     }
 }

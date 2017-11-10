@@ -45,7 +45,7 @@ class Deny
 {
 public:
     PcapHeader pHeader;
-    char data[65535];
+    unsigned char data[65535];
 };
 
 
@@ -66,7 +66,7 @@ class PacketStream
 {
 public:
     PcapFHeader fHeader;
-    QVector <QVector<Deny>> packets;
+    QVector <Deny> packets;
 };
 
 #endif // PCAP_H
