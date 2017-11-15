@@ -4,7 +4,7 @@
 #include <QFile>
 #include <QDebug>
 #include <iostream>
-#include<QVector>
+#include <QVector>
 #include <sstream>
 
 
@@ -27,12 +27,11 @@ PacketStream ps;
 Deny ph;
 QString QW;
 
-long massive[1000000];
 void PCAP::on_pushButton_clicked()
 {
     int avr=0;
     int max,min,i=0;
-    QString Name = QFileDialog::getOpenFileName(0,"Open File","","PCAP files (*.*)");
+    QString Name = QFileDialog::getOpenFileName(0,"Open File","","PCAP files (*.cap)");
     qDebug() << Name;
     if ( Name == "")
         return;
@@ -43,20 +42,41 @@ void PCAP::on_pushButton_clicked()
         qDebug() <<"error open file";
     }
         file.read((char *)&ps.fHeader, 24);
+        QString dec;
+        dec=QString::number(ps.fHeader.magic);
+        int d=dec.toInt();
+        QString s=QString::number(d,16).toUpper();
         ui->textEdit->append("Заголовок файла: ");
-        ui->textEdit->append("Magic: "+QString::number(ps.fHeader.magic));
-        ui->textEdit->append("Version Major: "+QString::number(ps.fHeader.version_major));
-        ui->textEdit->append("Version Minor: "+QString::number(ps.fHeader.version_minor));
+        ui->textEdit->append("Magic: "+s);dec=QString::number(ps.fHeader.magic);
+        dec=QString::number(ps.fHeader.version_major);
+        d=dec.toInt();
+        s=QString::number(d,16).toUpper();
+        ui->textEdit->append("Version Major: "+s);
+        dec=QString::number(ps.fHeader.version_minor);
+        d=dec.toInt();
+        s=QString::number(d,16).toUpper();
+        ui->textEdit->append("Version Minor: "+s);
+//        dec=QString::number(ps.fHeader.thiszone);
+//        d=dec.toInt();
+//        s=QString::number(d,16).toUpper();
         ui->textEdit->append("Thiszone: "+QString::number(ps.fHeader.thiszone));
-        ui->textEdit->append("Sigfigs: "+QString::number(ps.fHeader.sigfigs));
+        dec=QString::number(ps.fHeader.sigfigs);
+        d=dec.toInt();
+        s=QString::number(d,16).toUpper();
+        ui->textEdit->append("Sigfigs: "+s);
+//        dec=QString::number(ps.fHeader.snaplen);
+//        d=dec.toInt();
+//        s=QString::number(d,16).toUpper();
         ui->textEdit->append("Snaplen: "+QString::number(ps.fHeader.snaplen));
-        ui->textEdit->append("Linktype: "+QString::number(ps.fHeader.linktype));
+        dec=QString::number(ps.fHeader.linktype);
+        d=dec.toInt();
+        s=QString::number(d,16).toUpper();
+        ui->textEdit->append("Linktype: "+s);
         min=65535;
         max=0;
         while ( file.pos() < file.size())
         {
             qDebug()<<file.pos();
-            massive[i]=file.pos();
             file.read((char *)&ph.pHeader,16);            
             file.read((char *)&ph.data,ph.pHeader.caplen);
             if (ph.pHeader.caplen>max)
@@ -70,10 +90,11 @@ void PCAP::on_pushButton_clicked()
             {
                 qDebug()<<hex<<(ph.data[j]&0xff);
             }
+            ps.packets.append(ph);
 //            ui->textEdit->append("Packet number "+QString::number(i));
 //            ui->textEdit->append("t1:"+QString::number(ph.pHeader.t1)+" t2:"+QString::number(ph.pHeader.t2)+" Захваченная длина пакета:" +QString::number(ph.pHeader.caplen)+" Общая длина пакета:"+ QString::number(ph.pHeader.len));
         }
-        ps.packets.push_back(ph);
+
         ui->textEdit->append("Количество пакетов: "+QString::number(i));
         avr=avr / i;
         ui->lineEdit_5->setText(QString::number(avr));
@@ -89,25 +110,33 @@ void PCAP::on_pushButton_2_clicked()
     Line = ui->lineEdit_4->text();
     int Num;
     Num = Line.toInt();
-    QFile file(QW);
-    if (!file.open(QIODevice::ReadOnly))
+    Num = Num -1 ;
+//    QFile file(QW);
+//    if (!file.open(QIODevice::ReadOnly))
+//    {
+//        qDebug() <<"error open file";
+//    }
+//    file.seek(massive[Num]);
+//    file.read((char *)&ph.pHeader,16);
+//    file.read((char *)&ph.data,ph.pHeader.caplen);
+    qDebug() <<"t1" << ps.packets[Num].pHeader.t1 << "t2" << ps.packets[Num].pHeader.t2 << "caplen" << ps.packets[Num].pHeader.caplen <<"len" <<ps.packets[Num].pHeader.len;
+    ui->textEdit->append("Packet number "+QString::number(Num+1));
+    ui->textEdit->append("t1:"+QString::number(ps.packets[Num].pHeader.t1)+" t2:"+QString::number(ps.packets[Num].pHeader.t2)+" Захваченная длина пакета:" +QString::number(ps.packets[Num].pHeader.caplen)+" Общая длина пакета:"+ QString::number(ps.packets[Num].pHeader.len));
+    for (int j=0;j<ps.packets[Num].pHeader.caplen;j++)
     {
-        qDebug() <<"error open file";
-    }
-    file.seek(massive[Num]);
-    file.read((char *)&ph.pHeader,16);
-    file.read((char *)&ph.data,ph.pHeader.caplen);
-    qDebug() <<"t1" << ph.pHeader.t1 << "t2" << ph.pHeader.t2 << "caplen" << ph.pHeader.caplen <<"len" <<ph.pHeader.len;
-    ui->textEdit->append("Packet number "+QString::number(Num));
-    ui->textEdit->append("t1:"+QString::number(ph.pHeader.t1)+" t2:"+QString::number(ph.pHeader.t2)+" Захваченная длина пакета:" +QString::number(ph.pHeader.caplen)+" Общая длина пакета:"+ QString::number(ph.pHeader.len));
-    ui->textEdit->append("");
-    for (int j=0;j<ph.pHeader.caplen;j++)
-    {
+        if (j % 16 == 0 )
+            ui->textEdit->append("");
+        if (j % 8 == 0 )
+            ui->textEdit->insertPlainText("   ");
         QString dec;
-        dec=QString::number(ph.data[j]);
+        dec=QString::number(ps.packets[Num].data[j]);
         int d=dec.toInt();
         QString s=QString::number(d,16).toUpper();
-        ui->textEdit->insertPlainText(" "+s + " ");
-        qDebug()<<hex<<(ph.data[j]&0xff);
+       if (d < 16)
+            ui->textEdit->insertPlainText(" 0"+s);
+       else
+            ui->textEdit->insertPlainText(" " + s);
+
+//        qDebug()<<hex<<(ph.data[j]&0xff);
     }
 }

@@ -66,7 +66,7 @@ class PacketStream
 {
 public:
     PcapFHeader fHeader;
-    QVector <Deny> packets;
+    QList <Deny> packets;
 };
 
 #endif // PCAP_H
