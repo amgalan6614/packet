@@ -43,11 +43,13 @@ void PCAP::on_pushButton_clicked()
     }
         file.read((char *)&ps.fHeader, 24);
         QString dec;
-        dec=QString::number(ps.fHeader.magic);
-        int d=dec.toInt();
-        QString s=QString::number(d,16).toUpper();
+        int d;
+        QString s;
+//        dec=QString::number(ps.fHeader.magic);
+//        int d=dec.toInt();
+//        QString s=QString::number(d,16).toUpper();
         ui->textEdit->append("Заголовок файла: ");
-        ui->textEdit->append("Magic: "+s);dec=QString::number(ps.fHeader.magic);
+        ui->textEdit->append("Magic: "+QString::number(ps.fHeader.magic));
         dec=QString::number(ps.fHeader.version_major);
         d=dec.toInt();
         s=QString::number(d,16).toUpper();
@@ -86,10 +88,10 @@ void PCAP::on_pushButton_clicked()
             avr=avr+ph.pHeader.caplen;
             i++;
             qDebug() <<"t1" << ph.pHeader.t1 << "t2" << ph.pHeader.t2 << "caplen" << ph.pHeader.caplen <<"len" <<ph.pHeader.len;
-            for (int j=0;j<ph.pHeader.caplen;j++)
-            {
-                qDebug()<<hex<<(ph.data[j]&0xff);
-            }
+//            for (int j=0;j<ph.pHeader.caplen;j++)
+//            {
+//                qDebug()<<hex<<(ph.data[j]&0xff);
+//            }
             ps.packets.append(ph);
 //            ui->textEdit->append("Packet number "+QString::number(i));
 //            ui->textEdit->append("t1:"+QString::number(ph.pHeader.t1)+" t2:"+QString::number(ph.pHeader.t2)+" Захваченная длина пакета:" +QString::number(ph.pHeader.caplen)+" Общая длина пакета:"+ QString::number(ph.pHeader.len));

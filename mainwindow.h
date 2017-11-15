@@ -14,8 +14,6 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-public slots:
-    void open();
 
 private slots:
     void on_pushButton_4_clicked(bool checked);
@@ -29,7 +27,7 @@ private slots:
     void on_pushButton_7_clicked();
     void on_pushButton_9_clicked();
     void on_pushButton_10_clicked();
-    void on_pushButton_17_clicked(bool checked);
+
 
     void on_pushButton_17_clicked();
 
@@ -37,7 +35,7 @@ private slots:
 
     void on_pushButton_15_clicked();
 
-    void on_pushButton_13_clicked();
+
 
     void on_pushButton_22_clicked();
 
@@ -49,9 +47,7 @@ private slots:
 
     void on_pushButton_30_clicked();
 
-    void on_pushButton_11_clicked();
 
-    void on_actionactionOpen_triggered();
 
     void on_actionOpen_triggered();
 

@@ -15,7 +15,6 @@ int main(int argc, char *argv[])
     p_ptr = new Packet();
     p_ptr->setLen(p.getlen());
     qDebug ()<<p_ptr->getlen();
-    delete p_ptr;
     EthPacket ep;
     IpPacket ip;
     p.show();
