@@ -21,12 +21,6 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::on_pushButton_4_clicked(bool checked)
-{
-    ui->lineEdit->setText(ui->lineEdit->text()+"1");
-}
-
-
 void MainWindow::on_pushButton_8_clicked()
 {
     ui->lineEdit->setText(ui->lineEdit->text()+"2");

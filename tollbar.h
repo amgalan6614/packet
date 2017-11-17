@@ -20,9 +20,9 @@ private slots:
 
     void on_pushButton_clicked();
 
-    void on_actionOpen_PCAP_triggered();
 
-    void on_pushButton_2_clicked();
+
+
 
 private:
     Ui::TollBar *ui;

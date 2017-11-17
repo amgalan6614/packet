@@ -16,8 +16,25 @@ struct PcapHeader
     qint32 caplen;
     qint32 len;
 };
+struct Ethernet
+{
+    unsigned char qwe[13];
+};
 
-
+//struct IPV
+//{
+//    qint8 vers;
+//    qint8 hl;
+//    qint16 dsf;
+//    qint32 TL;
+//    qint32 identification;
+//    qint32 flags;
+//    qint16 TimetoLive;
+//    qint16 Protocol;
+//    qint32 checksum;
+//    qint64 sourse;
+//    qint64 dest;
+//};
 
 class PCAP : public QMainWindow
 {
@@ -28,9 +45,9 @@ public:
     ~PCAP();
 
 private slots:
-    void on_actionPCAPOPEN_triggered();
 
-    void on_PCAPOPEN_triggered();
+
+
 
     void on_pushButton_clicked();
 
@@ -45,6 +62,7 @@ class Deny
 {
 public:
     PcapHeader pHeader;
+    Ethernet ethernet;
     unsigned char data[65535];
 };
 
@@ -59,6 +77,15 @@ struct PcapFHeader
     qint32 sigfigs;    /* accuracy of timestamps */
     qint32 snaplen;    /* max length saved portion of each pkt */
     qint32 linktype;   /* data link type (LINKTYPE_*) */
+};
+
+
+
+
+
+struct TCP
+{
+
 };
 
 
