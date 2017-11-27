@@ -63,7 +63,7 @@ class Deny
 public:
     PcapHeader pHeader;
     Ethernet ethernet;
-    unsigned char data[65535];
+    unsigned char* data;
 };
 
 

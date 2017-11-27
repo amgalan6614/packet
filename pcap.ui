@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1145</width>
-    <height>585</height>
+    <width>1485</width>
+    <height>643</height>
    </rect>
   </property>
   <property name="font">
@@ -153,8 +153,8 @@
      <rect>
       <x>220</x>
       <y>0</y>
-      <width>911</width>
-      <height>551</height>
+      <width>1101</width>
+      <height>141</height>
      </rect>
     </property>
     <property name="font">
@@ -192,6 +192,16 @@
     </property>
     <property name="text">
      <string>Find</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>140</y>
+      <width>1101</width>
+      <height>521</height>
+     </rect>
     </property>
    </widget>
   </widget>
